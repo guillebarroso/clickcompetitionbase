@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Optional;
 
 public interface PlayerRepository extends CrudRepository<Player, Long> {
+    public Optional<Player> findPlayerByUsername(String username);
+
     public Optional<Player> findPlayerById(Long id);
 
     @Query("Select p from Player p Where p.clicks >= ?1")

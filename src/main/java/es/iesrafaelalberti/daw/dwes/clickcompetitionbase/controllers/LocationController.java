@@ -17,5 +17,10 @@ public class LocationController {
         return new ResponseEntity<>(locationRepository.findAll(), HttpStatus.OK);
     }
 
+    @GetMapping(value  = "/locations/ordered")
+    public ResponseEntity<Object> locationsOrdered() {
+        return new ResponseEntity<>(locationRepository.orderedByClicksLocation(), HttpStatus.OK);
+    }
+
 
 }

@@ -17,6 +17,7 @@ public class Country {
 
     Long id;
     String name;
+    Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
@@ -27,5 +28,11 @@ public class Country {
     }
     public Country(String name){
         this.name = name;
+    }
+
+    public Country(Long id, String name, Long clicks) {
+        this.id = id;
+        this.name = name;
+        this.clicks = clicks;
     }
 }

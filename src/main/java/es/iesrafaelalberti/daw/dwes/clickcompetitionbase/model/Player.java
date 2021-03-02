@@ -1,9 +1,8 @@
 package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -15,8 +14,13 @@ public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
+    private String username;
+    @Column(length = 300)
+    private String password;
+    @Column(length = 300)
+    private String token;
     private int clicks;
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn()
@@ -31,14 +35,20 @@ public class Player {
             inverseJoinColumns = @JoinColumn(name = "team_id"))
     Set<Team> teamsOfPlayer = new HashSet<Team>();
 
-    //TODO: crear un constructor sin equipo, y otro solo con equipo
+
+    @ManyToOne
+    @JoinColumn()
+    private Role roles;
+
 
     public Player() {
     }
 
-    public Player(String name, int clicks, Location location, Team teamsofplayer) {
-        this.name = name;
+    public Player(String username, String password, int clicks, Role roles, Location location, Team teamsofplayer) {
+        this.username = username;
+        this.password = new BCryptPasswordEncoder().encode(password);
         this.clicks = clicks;
+        this.roles = roles;
         this.location = location;
         this.teamsOfPlayer.add(teamsofplayer);
     }

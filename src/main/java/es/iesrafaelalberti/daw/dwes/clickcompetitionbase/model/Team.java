@@ -15,6 +15,7 @@ public class Team {
 
     Long id;
     String name;
+    Long clicks;
 
     @ManyToMany(mappedBy = "teamsOfPlayer")
     @JsonBackReference
@@ -25,6 +26,12 @@ public class Team {
 
     public Team(String name){
         this.name = name;
+    }
+
+    public Team(Long id, String name, Long clicks) {
+        this.id = id;
+        this.name = name;
+        this.clicks = clicks;
     }
 
 }

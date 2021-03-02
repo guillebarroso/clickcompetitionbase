@@ -1,6 +1,7 @@
 package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,6 +18,7 @@ public class Location {
 
     Long id;
     String name;
+    //@JsonIgnore //Esto sirve para ignorar clicks cuando se muestre en el json
     Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
     @EqualsAndHashCode.Exclude

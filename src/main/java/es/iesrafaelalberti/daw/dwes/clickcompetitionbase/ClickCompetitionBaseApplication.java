@@ -1,5 +1,6 @@
 package es.iesrafaelalberti.daw.dwes.clickcompetitionbase;
 
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.security.JWTAuthorizationFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,15 +18,28 @@ public class ClickCompetitionBaseApplication {
     public static void main(String[] args) {
         SpringApplication.run(ClickCompetitionBaseApplication.class, args);
     }
+
     @EnableWebSecurity
     @Configuration
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.cors().disable()
-                    .csrf().disable()
+//            http.cors().disable()
+//                    .csrf().disable()
+//                    .authorizeRequests()
+//                    .antMatchers("/login/**").permitAll()
+//                    .antMatchers("/logout/**").permitAll()
+//                    .antMatchers("/").permitAll()
+//                    .antMatchers("/players/**").permitAll();
+            http.cors().and().csrf().disable()
+                    .addFilterAfter(new JWTAuthorizationFilter(getApplicationContext()), UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
+                    .antMatchers("/login/**").permitAll()
+                    .antMatchers("/logout/**").permitAll()
+                    .antMatchers("/players/**").authenticated()
+                    //.antMatchers("/teachers/**").hasAnyRole("ADMIN", "GOD")
                     .antMatchers("/").permitAll();
+
         }
 
         @Bean
@@ -34,4 +48,5 @@ public class ClickCompetitionBaseApplication {
         }
 
     }
+
 }

@@ -16,6 +16,7 @@ public interface LocationRepository extends CrudRepository<Location, Long> {
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Location(l.id, l.name, SUM(p.clicks)) " +
             "FROM Location l " +
             "INNER JOIN Player p " +
+            "ON l.id = p.location.id " +
             "GROUP BY l.id " +
             "ORDER BY SUM(p.clicks) DESC")
     public Collection<Location> orderedByClicksLocation();
