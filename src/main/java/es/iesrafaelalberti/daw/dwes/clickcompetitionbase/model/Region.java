@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class Region {
     String name;
     Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "region", cascade = CascadeType.ALL)
     Set<Location> locationRegion = new HashSet<>();

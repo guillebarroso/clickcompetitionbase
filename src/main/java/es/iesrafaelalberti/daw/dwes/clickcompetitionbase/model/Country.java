@@ -3,6 +3,7 @@ package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,6 +20,7 @@ public class Country {
     String name;
     Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
     Set<Region> regionCountry = new HashSet<>();

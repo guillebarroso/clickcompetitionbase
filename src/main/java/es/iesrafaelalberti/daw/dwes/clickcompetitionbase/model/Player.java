@@ -22,7 +22,7 @@ public class Player {
     private int clicks;
     private String imageUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn()
     private Location location;
 

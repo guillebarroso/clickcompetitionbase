@@ -3,6 +3,7 @@ package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class Role implements GrantedAuthority {
     String name;
 
     @JsonBackReference
+    @ToString.Exclude
     @OneToMany(mappedBy = "roles")
     @EqualsAndHashCode.Exclude
     Set<Player> players = new HashSet<>();

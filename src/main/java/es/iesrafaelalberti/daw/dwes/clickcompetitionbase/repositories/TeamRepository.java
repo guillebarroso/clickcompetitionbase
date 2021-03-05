@@ -12,8 +12,7 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
 
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Team(t.id, t.name, SUM(p.clicks)) " +
             "FROM Team t " +
-            "JOIN Player p " +
-            "ON t.id = p.id " +
+            "JOIN t.playersInTeam p " +
             "GROUP BY t.id " +
             "ORDER BY SUM(p.clicks) DESC")
     public Collection<Team> orderedByClicksTeam();
