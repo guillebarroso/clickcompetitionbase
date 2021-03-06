@@ -36,7 +36,8 @@ public class ClickCompetitionBaseApplication {
                     .authorizeRequests()
                     .antMatchers("/login/**").permitAll()
                     .antMatchers("/logout/**").permitAll()
-                    .antMatchers("/players/**").authenticated()
+                    //.antMatchers("/players/**").authenticated()
+                    .antMatchers("/players/**").hasRole("USER")
                     //.antMatchers("/teachers/**").hasAnyRole("ADMIN", "GOD")
                     .antMatchers("/").permitAll();
 

@@ -20,7 +20,7 @@ public class Role implements GrantedAuthority {
 
     @JsonBackReference
     @ToString.Exclude
-    @OneToMany(mappedBy = "roles")
+    @OneToMany
     @EqualsAndHashCode.Exclude
     Set<Player> players = new HashSet<>();
 

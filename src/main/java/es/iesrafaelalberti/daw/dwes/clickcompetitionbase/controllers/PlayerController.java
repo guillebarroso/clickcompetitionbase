@@ -1,7 +1,11 @@
 package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.controllers;
 
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Location;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Player;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Role;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.LocationRepository;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.PlayerRepository;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.RoleRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +25,11 @@ import java.util.stream.Collectors;
 public class PlayerController {
     @Autowired
     private PlayerRepository playerRepository;
+    @Autowired
+    private LocationRepository locationRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-    //TODO: crear un response entity que me lo ordene por equipos, provincias...
 
     @GetMapping(value  = "/players")
     public ResponseEntity<Object> playersList() {
@@ -46,11 +53,26 @@ public class PlayerController {
     }
 
     @PostMapping(value = "/add/players")
-    public ResponseEntity<Object> playerAdd(@RequestBody Player player){
-        Optional<Player> oldPlayer = playerRepository.findPlayerById(player.getId());
+    public ResponseEntity<Object> playerAdd(@RequestParam("username") String username,
+                                            @RequestParam("password") String password,
+                                            @RequestParam("nameLocation") String nameLocation){
+        Optional<Location> dataLocation = locationRepository.findLocationByName(nameLocation);
+        if (!dataLocation.isPresent()){return new ResponseEntity<>("Ese localidad no existe", HttpStatus.CONFLICT);}
+        Location location = dataLocation.get();
+        Role rol = roleRepository.save(new Role("ROLE_USER"));
+        Player nuevoPlayer = new Player(username, password, location, rol);
+        Optional<Player> oldPlayer = playerRepository.findPlayerById(nuevoPlayer.getId());
         if (oldPlayer.isPresent()){return new ResponseEntity<>("Ese ya existe", HttpStatus.CONFLICT);}
-        playerRepository.save(player);
-        return new ResponseEntity<>(player, HttpStatus.OK);
+        playerRepository.save(nuevoPlayer);
+        return new ResponseEntity<>(nuevoPlayer, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "delete/player{id}")
+    public ResponseEntity<Object> playerDelete(@PathVariable("id") Long id){
+        playerRepository.findPlayerById(id)
+                .orElseThrow(() -> new EntityNotFoundException(id.toString()));
+        playerRepository.deleteById(id);
+        return new ResponseEntity<>("Player con id " + id + " borrado", HttpStatus.OK);
     }
 
 

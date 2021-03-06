@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface LocationRepository extends CrudRepository<Location, Long> {
     public Optional<Location> findLocationById(Long id);
+    public Optional<Location> findLocationByName(String name);
 
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Location(l.id, l.name, SUM(p.clicks)) " +
             "FROM Location l " +

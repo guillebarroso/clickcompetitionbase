@@ -32,12 +32,8 @@ public class ImageController {
     }
 
     @GetMapping(value = "/download/{repo}/{name}")
-    // TODO: this must be in service class
-    //No sabia como poner esto en el servicio, asi que lo unico que pude hacer fue quitar
-    //al menos el targetPath
     public ResponseEntity<Resource> getImage(@PathVariable("name") String name,
                                              @PathVariable("repo") String repo){
-        //Me da a mi que lo que he hecho es inútil pero bueno XD
         Path targetPath = imageService.imageShow(name, repo);
         try {
             Resource resource = new UrlResource(targetPath.toUri());

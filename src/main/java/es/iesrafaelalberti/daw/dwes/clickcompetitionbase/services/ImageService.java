@@ -27,7 +27,7 @@ public class ImageService {
         String myFileName = id.toString() + "_" + file.getOriginalFilename();
 
         if(playerRepository.existsById(id)){
-            File directory = new File("./images/players/");
+            File directory = new File("./images/players");
             if(!directory.exists()){
                 directory.mkdir();
             }
@@ -52,7 +52,6 @@ public class ImageService {
     }
 
     public Path imageShow(String name, String repo){
-        // TODO: No absolute path, NEVER!!!!!!!!!!!
         Path targetPath = Paths.get("./images/" + repo + "/" + name).normalize();
         return targetPath;
     }
