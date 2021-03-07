@@ -15,8 +15,8 @@ import java.util.Set;
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String name;
+    private Long id;
+    private String name;
 
     @JsonBackReference
     @ToString.Exclude

@@ -17,10 +17,10 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    Long id;
-    String name;
+    private Long id;
+    private String name;
     //@JsonIgnore //Esto sirve para ignorar clicks cuando se muestre en el json
-    Long clicks;
+    private Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

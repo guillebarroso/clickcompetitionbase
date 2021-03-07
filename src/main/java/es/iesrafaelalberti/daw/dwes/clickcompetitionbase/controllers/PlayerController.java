@@ -114,10 +114,6 @@ public class PlayerController {
         return new ResponseEntity<>("Player con id " + id + " borrado", HttpStatus.OK);
     }
 
-
-
-
-
     @GetMapping("/logout")
     public ResponseEntity<Object> logout() {
         Player player = (Player) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -149,7 +145,6 @@ public class PlayerController {
 //        List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 //                .commaSeparatedStringToAuthorityList("ROLE_USER");
         String secretKey = "pestillo";
-        // TODO: Investigar todos los parámetros
         token = Jwts
                 .builder()
                 .setId("AlbertIES")

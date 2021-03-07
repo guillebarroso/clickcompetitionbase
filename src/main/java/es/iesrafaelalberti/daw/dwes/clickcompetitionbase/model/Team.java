@@ -13,9 +13,10 @@ public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    Long id;
-    String name;
-    Long clicks;
+    private Long id;
+    private String name;
+    private Long clicks;
+    private String imageUrl;
 
     @ManyToMany(mappedBy = "teamsOfPlayer")
     @JsonBackReference
@@ -26,6 +27,7 @@ public class Team {
 
     public Team(String name){
         this.name = name;
+        this.imageUrl = "/download/teams/team_default.png";
     }
 
     public Team(Long id, String name, Long clicks) {

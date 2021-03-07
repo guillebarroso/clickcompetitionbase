@@ -28,6 +28,8 @@ public class ImageController {
         } catch (IOException e) {
             return new ResponseEntity<>("Error en archivo", HttpStatus.NO_CONTENT);
         }
+
+
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 

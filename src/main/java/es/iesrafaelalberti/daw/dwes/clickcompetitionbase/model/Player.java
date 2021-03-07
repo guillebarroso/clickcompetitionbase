@@ -52,7 +52,7 @@ public class Player {
         this.roles = roles;
         this.location = location;
         this.teamsOfPlayer.add(teamsofplayer);
-        this.imageUrl = "/download/player_default.png";
+        this.imageUrl = "/download/players/player_default.png";
     }
 
     public Player(String username, String password, Location location, Role roles) {
@@ -61,7 +61,7 @@ public class Player {
         this.clicks = 0;
         this.location = location;
         this.roles = roles;
-        this.imageUrl = "/download/player_default.png";
+        this.imageUrl = "/download/players/player_default.png";
     }
 
     public void addClicks(int clicks) {

@@ -17,9 +17,9 @@ public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
 
-    Long id;
-    String name;
-    Long clicks;
+    private Long id;
+    private String name;
+    private Long clicks;
     @JsonBackReference //TODO: comprobar que esto no de problemas
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

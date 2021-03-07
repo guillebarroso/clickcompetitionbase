@@ -24,21 +24,14 @@ public class ClickCompetitionBaseApplication {
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-//            http.cors().disable()
-//                    .csrf().disable()
-//                    .authorizeRequests()
-//                    .antMatchers("/login/**").permitAll()
-//                    .antMatchers("/logout/**").permitAll()
-//                    .antMatchers("/").permitAll()
-//                    .antMatchers("/players/**").permitAll();
+//          Solo puse algunas urls de prueba para comprobar que funcionaba
             http.cors().and().csrf().disable()
                     .addFilterAfter(new JWTAuthorizationFilter(getApplicationContext()), UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
                     .antMatchers("/login/**").permitAll()
                     .antMatchers("/logout/**").permitAll()
-                    //.antMatchers("/players/**").authenticated()
-                    .antMatchers("/players/**").hasRole("USER")
-                    //.antMatchers("/teachers/**").hasAnyRole("ADMIN", "GOD")
+                    .antMatchers("/players/**").authenticated()
+                    .antMatchers("/add/team/**").hasAnyRole("ADMIN")
                     .antMatchers("/").permitAll();
 
         }

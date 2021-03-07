@@ -20,34 +20,36 @@ import java.nio.file.StandardCopyOption;
 public class ImageService {
     @Autowired
     private PlayerRepository playerRepository;
-//    @Autowired
-//    private TeamRepository teamRepository;
+    @Autowired
+    private TeamRepository teamRepository;
 
     public boolean imageStore(MultipartFile file, Long id) throws IOException {
         String myFileName = id.toString() + "_" + file.getOriginalFilename();
 
         if(playerRepository.existsById(id)){
-            File directory = new File("./images/players");
-            if(!directory.exists()){
-                directory.mkdir();
-            }
+            File directory = new File("./images/players/");
+//            if(!directory.exists()){
+//                directory.mkdir();
+//            }
             Path targetPath = Paths.get(directory + "/" + myFileName).normalize();
             Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
             Player player = playerRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException(id.toString()));
-            player.setImageUrl("/download/" + myFileName);
+            player.setImageUrl("/download/players/" + myFileName);
             playerRepository.save(player);
             return true;
         }
-//        else if (teamRepository.existsById(id)){
-//            Path targetPath = Paths.get("./images/teams/" + myFileName).normalize();
-//            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-//            Team team = teamRepository.findById(id)
-//                    .orElseThrow(() -> new EntityNotFoundException(id.toString()));
-//            team.setImageUrl("/download/" + myFileName);
-//            teamRepository.save(team);
-//            return true;
-//        }
+        else if (teamRepository.existsById(id)){
+            File directory = new File("./images/teams/");
+
+            Path targetPath = Paths.get(directory + "/" + myFileName).normalize();
+            Files.copy(file.getInputStream(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+            Team team = teamRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(id.toString()));
+            team.setImageUrl("/download/teams/" + myFileName);
+            teamRepository.save(team);
+            return true;
+        }
         return true;
     }
 
