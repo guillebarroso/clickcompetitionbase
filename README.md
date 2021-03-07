@@ -1,4 +1,4 @@
-# Cmpetición de clicks
+# Competición de clicks
 ## Antes de evaluar...
 - No está hecho el **frontend** porque no tuve tiempo.\
 - El delete a veces da fallo en el many to many.\
