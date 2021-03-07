@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface RegionRepository extends CrudRepository<Region, Long> {
 
     public Optional<Region> findRegionById(Long id);
+    public Optional<Region> findRegionByName(String name);
 
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Region(r.id, r.name, SUM(p.clicks)) " +
             "FROM Region r " +

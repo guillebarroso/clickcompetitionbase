@@ -9,6 +9,7 @@ import java.util.Optional;
 
 public interface TeamRepository extends CrudRepository<Team, Long> {
     public Optional<Team> findTeamById(Long id);
+    public Optional<Team> findTeamByName(String name);
 
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Team(t.id, t.name, SUM(p.clicks)) " +
             "FROM Team t " +

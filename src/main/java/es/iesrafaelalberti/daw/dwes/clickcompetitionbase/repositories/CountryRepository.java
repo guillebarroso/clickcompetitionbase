@@ -1,6 +1,7 @@
 package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories;
 
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Country;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Region;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -10,6 +11,7 @@ import java.util.Optional;
 public interface CountryRepository extends CrudRepository<Country, Long> {
 
     public Optional<Country> findCountryById(Long id);
+    public Optional<Country> findCountryByName(String name);
 
     @Query("SELECT new es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Country(c.id, c.name, SUM(p.clicks)) " +
             "FROM Country c " +

@@ -67,4 +67,8 @@ public class Player {
     public void addClicks(int clicks) {
         this.clicks += clicks;
     }
+
+    public void addTeam(Team team) {
+        this.teamsOfPlayer.add(team);
+    }
 }

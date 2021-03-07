@@ -3,15 +3,16 @@ package es.iesrafaelalberti.daw.dwes.clickcompetitionbase.controllers;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Location;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Player;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Role;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.model.Team;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.LocationRepository;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.PlayerRepository;
 import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.RoleRepository;
+import es.iesrafaelalberti.daw.dwes.clickcompetitionbase.repositories.TeamRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class PlayerController {
@@ -27,6 +27,8 @@ public class PlayerController {
     private PlayerRepository playerRepository;
     @Autowired
     private LocationRepository locationRepository;
+    @Autowired
+    private TeamRepository teamRepository;
     @Autowired
     private RoleRepository roleRepository;
 
@@ -67,7 +69,44 @@ public class PlayerController {
         return new ResponseEntity<>(nuevoPlayer, HttpStatus.OK);
     }
 
-    @DeleteMapping(value = "delete/player{id}")
+    @PutMapping(value = "/edit/player/{id}")
+    public ResponseEntity<Object> playerUpdate(@PathVariable("id") Long id, @RequestParam("username") String username,
+                                                                             @RequestParam("password") String password,
+                                                                             @RequestParam("nameLocation") String nameLocation) throws EntityNotFoundException{
+        Optional<Player> dataPlayer = playerRepository.findPlayerById(id);
+        if (!dataPlayer.isPresent()){return new ResponseEntity<>("Ese jugador no existe", HttpStatus.CONFLICT);}
+        Player player = dataPlayer.get();
+
+        Optional<Location> dataLocation = locationRepository.findLocationByName(nameLocation);
+        if (!dataLocation.isPresent()){return new ResponseEntity<>("Ese localidad no existe", HttpStatus.CONFLICT);}
+        Location location = dataLocation.get();
+
+        player.setUsername(username);
+        player.setPassword(new BCryptPasswordEncoder().encode(password));
+        player.setLocation(location);
+
+        playerRepository.save(player);
+        return new ResponseEntity<>(player, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/add/team/player/{id}")
+    public ResponseEntity<Object> addTeamToPlayer(@PathVariable("id") Long id, @RequestParam("nameTeam") String nameTeam) throws EntityNotFoundException{
+        Optional<Player> dataPlayer = playerRepository.findPlayerById(id);
+        if (!dataPlayer.isPresent()){return new ResponseEntity<>("Ese jugador no existe", HttpStatus.CONFLICT);}
+        Player player = dataPlayer.get();
+
+        Optional<Team> dataTeam = teamRepository.findTeamByName(nameTeam);
+        if (!dataTeam.isPresent()){return new ResponseEntity<>("Ese equipo no existe", HttpStatus.CONFLICT);}
+        Team team = dataTeam.get();
+
+        player.addTeam(team);
+
+        playerRepository.save(player);
+        return new ResponseEntity<>(player, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping(value = "/delete/player/{id}")
     public ResponseEntity<Object> playerDelete(@PathVariable("id") Long id){
         playerRepository.findPlayerById(id)
                 .orElseThrow(() -> new EntityNotFoundException(id.toString()));

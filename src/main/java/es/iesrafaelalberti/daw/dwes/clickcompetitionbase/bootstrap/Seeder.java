@@ -40,7 +40,7 @@ public class Seeder implements CommandLineRunner {
         playerRepository.save(new Player("prueba2", "pestillo", 10, role2, l1, t1));
         playerRepository.save(new Player("prueba3", "pestillo", 22, role2, l2, t1));
         playerRepository.save(new Player("prueba4", "pestillo", 7, role2, l2, t2));
-        playerRepository.save(new Player("prueba5", "pestillo", 13, role2, l2, t2));
+        playerRepository.save(new Player("prueba5", "pestillo", 27, role2, l2, t2));
         playerRepository.save(new Player("prueba6", "pestillo", 2, role2, l1, t1));
         playerRepository.save(new Player("prueba7", "pestillo", 23, role2, l3, t2));
         playerRepository.save(new Player("prueba8", "pestillo", 20, role2, l3, t1));
